@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Południk Park Conference & SPA — Demo</title>
+  <meta name="description" content="Koncepcja nowej strony dla Południk Park Conference & SPA w Stargardzie." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#171714;
+      --muted:#6f6d66;
+      --ivory:#f6f2e9;
+      --ivory-2:#efe8da;
+      --white:#ffffff;
+      --gold:#b08b49;
+      --gold-2:#c7a867;
+      --green:#173d34;
+      --green-2:#0e2b25;
+      --line:rgba(23,23,20,.12);
+      --shadow:0 18px 50px rgba(0,0,0,.12);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--ivory);
+      color:var(--ink);
+      font-family:"DM Sans",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    img{display:block;width:100%}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+
+    .container{
+      width:min(1180px, calc(100% - 40px));
+      margin:0 auto;
+    }
+
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:12px;
+      font-weight:600;
+      color:var(--gold);
+    }
+
+    h1,h2,h3{
+      font-family:"Playfair Display",Georgia,serif;
+      font-weight:500;
+      line-height:1.02;
+      margin:0;
+    }
+
+    h1{font-size:clamp(52px,7vw,92px)}
+    h2{font-size:clamp(38px,5vw,64px)}
+    h3{font-size:30px}
+
+    p{line-height:1.7;color:var(--muted)}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-height:48px;
+      padding:0 22px;
+      border-radius:999px;
+      border:1px solid transparent;
+      transition:.25s ease;
+      font-weight:600;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    .btn-primary{
+      background:var(--gold);
+      color:white;
+      box-shadow:0 10px 28px rgba(176,139,73,.25);
+    }
+    .btn-primary:hover{transform:translateY(-2px);background:#9e793d}
+
+    .btn-dark{
+      background:rgba(18,18,15,.72);
+      color:white;
+      border-color:rgba(255,255,255,.35);
+      backdrop-filter:blur(8px);
+    }
+    .btn-dark:hover{background:rgba(18,18,15,.88)}
+
+    .btn-outline{
+      border-color:rgba(23,23,20,.22);
+      background:transparent;
+    }
+    .btn-outline:hover{background:white}
+
+    .site-header{
+      position:fixed;
+      z-index:50;
+      top:0;left:0;right:0;
+      background:rgba(246,242,233,.9);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(23,23,20,.08);
+    }
+
+    .nav{
+      min-height:78px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:28px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:max-content;
+    }
+
+    .brand-mark{
+      width:42px;height:42px;
+      display:grid;
+      place-items:center;
+      color:var(--gold);
+    }
+
+    .brand-mark svg{width:100%;height:100%}
+
+    .brand-text strong{
+      display:block;
+      font-family:"Playfair Display",Georgia,serif;
+      letter-spacing:.07em;
+      font-size:20px;
+      font-weight:600;
+    }
+    .brand-text span{
+      display:block;
+      font-size:9px;
+      letter-spacing:.28em;
+      margin-top:2px;
+    }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:28px;
+      font-size:14px;
+      font-weight:500;
+    }
+    .nav-links a:hover{color:var(--gold)}
+
+    .nav-actions{display:flex;gap:10px;align-items:center}
+
+    .menu-btn{
+      display:none;
+      width:44px;height:44px;
+      border-radius:50%;
+      border:1px solid var(--line);
+      background:white;
+      cursor:pointer;
+    }
+
+    .mobile-menu{
+      display:none;
+      position:fixed;
+      z-index:49;
+      top:68px;
+      left:12px;
+      right:12px;
+      padding:14px;
+      border-radius:20px;
+      background:rgba(246,242,233,.98);
+      border:1px solid rgba(23,23,20,.09);
+      box-shadow:0 18px 45px rgba(0,0,0,.16);
+      backdrop-filter:blur(18px);
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .mobile-menu.open{display:flex}
+
+    .mobile-menu a{
+      padding:14px 16px;
+      border-radius:14px;
+      font-weight:600;
+    }
+
+    .mobile-menu a:hover{background:white}
+
+    .mobile-menu .mobile-book{
+      margin-top:6px;
+      text-align:center;
+      color:white;
+      background:var(--gold);
+    }
+
+    .hero{
+      min-height:94vh;
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      padding:150px 0 78px;
+      background:
+        linear-gradient(90deg,rgba(6,12,10,.78) 0%,rgba(6,12,10,.52) 38%,rgba(6,12,10,.12) 68%,rgba(6,12,10,.06) 100%),
+        url("https://apartamenty-poludnik.west-pomerania-hotels.com/data/Photos/OriginalPhoto/17342/1734209/1734209315/hotel-poludnik-park-conference-spa-stargard-szczecinski-photo-1.JPEG") center/cover no-repeat;
+      color:white;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;inset:auto 0 0 0;height:150px;
+      background:linear-gradient(transparent,var(--ivory));
+      pointer-events:none;
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      max-width:760px;
+    }
+
+    .hero .eyebrow{color:#e0c995}
+    .hero h1{margin:16px 0 18px;text-wrap:balance}
+    .hero-subtitle{
+      font-family:"Playfair Display",Georgia,serif;
+      font-size:clamp(24px,3vw,40px);
+      color:#ead8aa;
+      margin:-6px 0 18px;
+      letter-spacing:.02em;
+    }
+
+    .hero p{
+      max-width:680px;
+      color:rgba(255,255,255,.87);
+      font-size:18px;
+      margin:0 0 30px;
+    }
+    .hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+
+    .booking-wrap{
+      position:relative;
+      z-index:12;
+      margin-top:-38px;
+    }
+
+    .booking-bar{
+      display:grid;
+      grid-template-columns:1fr 1fr .8fr auto;
+      align-items:end;
+      gap:14px;
+      background:rgba(255,255,255,.98);
+      border:1px solid rgba(23,23,20,.08);
+      box-shadow:var(--shadow);
+      border-radius:22px;
+      padding:18px;
+    }
+
+    .booking-field label{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:10px;
+      font-weight:700;
+      color:var(--gold);
+      margin:0 0 7px 3px;
+    }
+
+    .booking-field input,
+    .booking-field select{
+      width:100%;
+      min-width:0;
+      height:48px;
+      border:1px solid var(--line);
+      background:#fbfaf7;
+      border-radius:14px;
+      padding:0 14px;
+      color:var(--ink);
+      font:inherit;
+      outline:none;
+      box-sizing:border-box;
+    }
+
+    .booking-field input[type="date"]{
+      -webkit-appearance:none;
+      appearance:none;
+      color:var(--ink);
+      background-color:#fbfaf7;
+    }
+
+    .booking-field input:focus,
+    .booking-field select:focus{
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px rgba(176,139,73,.12);
+    }
+
+    .booking-bar .btn{height:48px}
+
+    .trust-strip{
+      position:relative;
+      z-index:5;
+      margin-top:18px;
+    }
+
+    .trust-panel{
+      background:rgba(255,255,255,.96);
+      border:1px solid rgba(23,23,20,.07);
+      box-shadow:var(--shadow);
+      border-radius:24px;
+      padding:28px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+    }
+
+    .stat{
+      padding:10px 22px;
+      border-right:1px solid var(--line);
+    }
+    .stat:last-child{border-right:none}
+    .stat strong{
+      display:block;
+      font-family:"Playfair Display",Georgia,serif;
+      font-size:25px;
+      margin-bottom:6px;
+    }
+    .stat span{color:var(--muted);font-size:13px;line-height:1.4}
+
+    section{padding:110px 0}
+
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:30px;
+      margin-bottom:44px;
+    }
+    .section-head p{max-width:540px;margin:0}
+
+    .rooms-grid{
+      display:grid;
+      grid-template-columns:.8fr 1.2fr;
+      gap:56px;
+      align-items:center;
+    }
+
+    .rooms-copy p{font-size:17px;margin:20px 0 28px}
+    .photo-card{
+      overflow:hidden;
+      border-radius:28px;
+      box-shadow:var(--shadow);
+    }
+    .photo-card img{
+      aspect-ratio:4/3;
+      object-fit:cover;
+      transition:transform .7s ease;
+    }
+    .photo-card:hover img{transform:scale(1.03)}
+
+    .room-features{
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+      margin-top:30px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .feature-pill{
+      padding:10px 14px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.4);
+    }
+
+    .spa{
+      background:var(--green-2);
+      color:white;
+      overflow:hidden;
+    }
+
+    .spa-grid{
+      display:grid;
+      grid-template-columns:1fr 1.05fr;
+      align-items:stretch;
+      gap:0;
+      border-radius:32px;
+      overflow:hidden;
+      background:#102f28;
+      box-shadow:0 30px 70px rgba(0,0,0,.24);
+    }
+
+    .spa-copy{
+      padding:70px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .spa-copy p{color:rgba(255,255,255,.74);font-size:17px}
+    .spa-copy h2{margin:12px 0 18px}
+    .spa-img{
+      min-height:580px;
+      background:url("https://images.trvl-media.com/lodging/101000000/100200000/100192100/100192060/5000709d.jpg?impolicy=resizecrop&ra=fill&rh=900&rw=1200") center/cover no-repeat;
+    }
+
+    .spa-list{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin:22px 0 32px;
+    }
+    .spa-list span{
+      color:rgba(255,255,255,.86);
+      border-top:1px solid rgba(255,255,255,.14);
+      padding-top:12px;
+      font-size:14px;
+    }
+
+    .conference-grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:58px;
+      align-items:center;
+    }
+
+    .conference-img{
+      overflow:hidden;
+      border-radius:28px;
+      box-shadow:var(--shadow);
+    }
+    .conference-img img{
+      aspect-ratio:4/3;
+      object-fit:cover;
+    }
+
+    .conference-visual{
+      min-height:520px;
+      border-radius:28px;
+      overflow:hidden;
+      padding:54px;
+      background:
+        radial-gradient(circle at 85% 18%, rgba(199,168,103,.22), transparent 34%),
+        linear-gradient(145deg,#0f3129 0%,#173d34 58%,#0b2620 100%);
+      color:white;
+      box-shadow:var(--shadow);
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .conference-visual::before{
+      content:"";
+      position:absolute;
+      inset:22px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      pointer-events:none;
+    }
+
+    .conference-number{
+      position:relative;
+      z-index:2;
+      font-family:"Playfair Display",Georgia,serif;
+      font-size:clamp(110px,13vw,190px);
+      line-height:.8;
+      color:#d4b873;
+      letter-spacing:-.06em;
+    }
+
+    .conference-visual-copy{
+      position:relative;
+      z-index:2;
+      max-width:390px;
+    }
+
+    .conference-visual-copy .eyebrow{color:#d4b873}
+    .conference-visual-copy h3{
+      font-size:34px;
+      margin:10px 0 12px;
+      color:white;
+    }
+    .conference-visual-copy p{
+      color:rgba(255,255,255,.68);
+      margin:0;
+    }
+
+    .conference-badges{
+      position:relative;
+      z-index:2;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:24px;
+    }
+    .conference-badges span{
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.06);
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:12px;
+      color:rgba(255,255,255,.82);
+    }
+
+    .conference-copy p{font-size:17px;margin:20px 0 28px}
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin:30px 0;
+    }
+    .mini-card{
+      border-top:1px solid var(--line);
+      padding:16px 0 0;
+    }
+    .mini-card strong{display:block;margin-bottom:6px}
+    .mini-card span{color:var(--muted);font-size:13px}
+
+    .experience{
+      background:var(--ivory-2);
+    }
+
+    .experience-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .experience-card{
+      min-height:360px;
+      border-radius:24px;
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      padding:30px;
+      color:white;
+      box-shadow:0 18px 40px rgba(0,0,0,.13);
+    }
+
+    .experience-card::before{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(transparent 20%,rgba(5,10,8,.8) 100%);
+    }
+
+    .experience-card > div{position:relative;z-index:2}
+    .experience-card p{color:rgba(255,255,255,.78);margin:8px 0 0}
+
+    .experience-card:nth-child(1){
+      background:url("https://www.konferencje.pl/media/cache/slideshow_v3_jpeg/L/k/j/G/LkjGmiqTd1D6npCbZcQH.jpeg") center/cover;
+    }
+    .experience-card:nth-child(2){
+      background:url("https://images.trvl-media.com/lodging/101000000/100200000/100192100/100192060/5000709d.jpg?impolicy=resizecrop&ra=fill&rh=800&rw=1200") center/cover;
+    }
+    .experience-card:nth-child(3){
+      background:url("https://cf.bstatic.com/xdata/images/hotel/max1024x768/487718954.jpg?k=457b968560fb27f5850ae1efbccade81cc5d3307a5ed05f6c8b497225e7a6d01&o=") center/cover;
+    }
+
+    .reviews-shell{
+      display:grid;
+      grid-template-columns:.75fr 1.25fr;
+      gap:58px;
+      align-items:start;
+    }
+
+    .review-lead{
+      padding:36px;
+      border-radius:24px;
+      background:white;
+      border:1px solid var(--line);
+    }
+    .review-lead .big{
+      font-family:"Playfair Display",Georgia,serif;
+      font-size:48px;
+      line-height:1;
+      margin:14px 0;
+    }
+
+    .review-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .review{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.45);
+      border-radius:20px;
+      padding:28px;
+    }
+    .review p{margin:0 0 18px;color:#4b4944}
+    .review strong{display:block;font-size:14px}
+    .review span{font-size:12px;color:var(--muted)}
+
+    .gallery{
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:18px;
+    }
+    .gallery .large,
+    .gallery .small{
+      overflow:hidden;border-radius:24px
+    }
+    .gallery .large img{height:580px;object-fit:cover}
+    .gallery-side{display:grid;grid-template-rows:1fr 1fr;gap:18px}
+    .gallery .small img{height:281px;object-fit:cover}
+
+    .contact{
+      background:var(--green);
+      color:white;
+    }
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:center;
+    }
+
+    .contact p{color:rgba(255,255,255,.72)}
+    .contact-info{
+      display:grid;
+      gap:14px;
+      margin:30px 0;
+    }
+    .contact-info a,.contact-info div{
+      display:flex;gap:12px;align-items:center;
+      color:rgba(255,255,255,.9);
+    }
+
+    .map-card{
+      min-height:430px;
+      border-radius:28px;
+      overflow:hidden;
+      position:relative;
+      background:#e8e2d7;
+      box-shadow:0 28px 65px rgba(0,0,0,.22);
+    }
+
+    .map-card iframe{
+      width:100%;
+      height:430px;
+      border:0;
+      display:block;
+      filter:saturate(.86) contrast(.96);
+    }
+
+    .map-label{
+      position:absolute;
+      left:24px;
+      bottom:24px;
+      color:var(--ink);
+      background:rgba(255,255,255,.95);
+      padding:14px 18px;
+      border-radius:999px;
+      font-weight:600;
+      box-shadow:0 10px 28px rgba(0,0,0,.15);
+      pointer-events:none;
+    }
+
+    footer{
+      background:#0b211c;
+      color:white;
+      padding:34px 0;
+    }
+
+    .footer-row{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      align-items:center;
+      color:rgba(255,255,255,.65);
+      font-size:12px;
+    }
+
+    .demo-note{
+      margin-top:16px;
+      font-size:11px;
+      color:rgba(255,255,255,.45);
+    }
+
+    @media(max-width:960px){
+      .nav-links,.nav-actions{display:none}
+      .booking-bar{grid-template-columns:1fr 1fr}
+      .booking-bar .btn{grid-column:1 / -1}
+      .menu-btn{display:block}
+      .trust-panel{grid-template-columns:1fr 1fr}
+      .stat:nth-child(2){border-right:none}
+      .rooms-grid,.conference-grid,.reviews-shell,.contact-grid{grid-template-columns:1fr}
+      .conference-visual{min-height:440px}
+      .spa-grid{grid-template-columns:1fr}
+      .spa-img{min-height:420px}
+      .experience-grid{grid-template-columns:1fr}
+      .gallery{grid-template-columns:1fr}
+      .gallery .large img,.gallery .small img{height:360px}
+      .gallery-side{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+    }
+
+    @media(max-width:640px){
+      .container{width:min(100% - 24px,1180px)}
+      .nav{min-height:68px}
+      .brand{gap:9px}
+      .brand-mark{width:38px;height:38px}
+      .brand-text strong{font-size:16px}
+      .brand-text span{font-size:8px;letter-spacing:.22em}
+      .menu-btn{width:44px;height:44px;flex:0 0 auto}
+
+      /* Fix 1: keep the mobile hero and CTAs together instead of letting
+         a single button hang over the booking card. */
+      .hero{
+        min-height:650px;
+        align-items:flex-end;
+        padding:145px 0 74px;
+        background-position:center center;
+      }
+      .hero-content{max-width:100%}
+      .hero .eyebrow{font-size:10px}
+      .hero h1{
+        font-size:48px;
+        margin:12px 0 12px;
+        line-height:.95;
+      }
+      .hero-subtitle{
+        font-size:25px;
+        line-height:1.12;
+        margin:0 0 14px;
+      }
+      .hero p{
+        font-size:15px;
+        line-height:1.55;
+        margin-bottom:20px;
+      }
+      .hero-buttons{
+        display:grid;
+        grid-template-columns:1fr;
+        width:100%;
+        gap:10px;
+      }
+      .hero-buttons .btn{
+        width:100%;
+        min-height:50px;
+      }
+
+      .booking-wrap{
+        margin-top:0;
+        padding-top:14px;
+      }
+      .booking-bar{
+        grid-template-columns:1fr;
+        padding:14px;
+        gap:12px;
+      }
+      .booking-bar .btn{
+        grid-column:auto;
+        width:100%;
+        white-space:normal;
+      }
+      .booking-field input,
+      .booking-field select{
+        height:54px;
+        font-size:16px;
+      }
+
+      h1{font-size:48px}
+      h2{font-size:40px}
+      section{padding:72px 0}
+
+      .trust-panel{grid-template-columns:1fr;padding:16px}
+      .stat{border-right:none;border-bottom:1px solid var(--line)}
+      .stat:last-child{border-bottom:none}
+
+      .rooms-grid,.conference-grid{gap:30px}
+      .spa-copy{padding:38px 24px}
+      .spa-list{grid-template-columns:1fr}
+      .review-cards{grid-template-columns:1fr}
+      .gallery-side{grid-template-columns:1fr}
+      .footer-row{flex-direction:column;align-items:flex-start}
+
+      /* Fix 2: stop the large 35 from colliding with the conference copy. */
+      .conference-visual{
+        min-height:0;
+        padding:34px 28px 32px;
+        justify-content:flex-start;
+        gap:26px;
+      }
+      .conference-visual::before{
+        inset:14px;
+        border-radius:18px;
+      }
+      .conference-number{
+        font-size:100px;
+        line-height:.82;
+        letter-spacing:-.05em;
+        margin:0;
+      }
+      .conference-visual-copy{
+        max-width:none;
+      }
+      .conference-visual-copy .eyebrow{
+        display:block;
+        margin:0 0 8px;
+        font-size:10px;
+      }
+      .conference-visual-copy h3{
+        font-size:31px;
+        line-height:1.04;
+        margin:0 0 14px;
+      }
+      .conference-visual-copy p{
+        font-size:14px;
+        line-height:1.55;
+      }
+      .conference-badges{
+        margin-top:20px;
+        gap:8px;
+      }
+      .conference-badges span{
+        font-size:11px;
+        padding:8px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="#start" aria-label="Południk Park">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <path d="M32 7c-6 8-8 15-8 20 0 5 3 9 8 12 5-3 8-7 8-12 0-5-2-12-8-20Z" stroke="currentColor" stroke-width="2.3"/>
+          <path d="M11 22c9 1 16 4 20 9 4 5 4 10 1 15-6 0-11-2-15-6-4-5-6-11-6-18Z" stroke="currentColor" stroke-width="2.3"/>
+          <path d="M53 22c-9 1-16 4-20 9-4 5-4 10-1 15 6 0 11-2 15-6 4-5 6-11 6-18Z" stroke="currentColor" stroke-width="2.3"/>
+          <path d="M18 48h28" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <strong>POŁUDNIK PARK</strong>
+        <span>CONFERENCE & SPA</span>
+      </span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#pokoje">Pokoje</a>
+      <a href="#spa">SPA</a>
+      <a href="#konferencje">Konferencje</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="btn btn-outline" href="mailto:poludnikpark@gmail.com?subject=Zapytanie%20o%20konferencję">Organizujesz konferencję?</a>
+      <a class="btn btn-primary" target="_blank" rel="noopener" href="https://www.booking.com/hotel/pl/apartamenty-poludnik.html">Zarezerwuj pobyt →</a>
+    </div>
+
+    <button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.mobile-menu').classList.toggle('open')">☰</button>
+  </div>
+</header>
+
+<div class="mobile-menu">
+  <a href="#pokoje" onclick="this.parentElement.classList.remove('open')">Pokoje</a>
+  <a href="#spa" onclick="this.parentElement.classList.remove('open')">SPA</a>
+  <a href="#konferencje" onclick="this.parentElement.classList.remove('open')">Konferencje</a>
+  <a href="#galeria" onclick="this.parentElement.classList.remove('open')">Galeria</a>
+  <a href="#kontakt" onclick="this.parentElement.classList.remove('open')">Kontakt</a>
+  <a class="mobile-book" target="_blank" rel="noopener"
+     href="https://www.booking.com/hotel/pl/apartamenty-poludnik.html">Zarezerwuj pobyt →</a>
+</div>
+
+<main>
+  <section id="start" class="hero">
+    <div class="container hero-content">
+      <div class="eyebrow">Boutique hotel · Stargard</div>
+      <h1>Południk Park</h1>
+      <div class="hero-subtitle">Boutique Hotel · Conference · SPA</div>
+      <p>Spokój, komfort i relaks w Stargardzie. Kameralny hotel, strefa SPA i nowoczesne zaplecze konferencyjne w jednym miejscu.</p>
+      <div class="hero-buttons">
+        <a class="btn btn-primary" target="_blank" rel="noopener" href="https://www.booking.com/hotel/pl/apartamenty-poludnik.html">Zarezerwuj pobyt →</a>
+        <a class="btn btn-dark" href="#konferencje">Organizujesz konferencję?</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="booking-wrap">
+    <div class="container booking-bar">
+      <div class="booking-field">
+        <label for="arrival">Data przyjazdu</label>
+        <input id="arrival" type="date" aria-label="Data przyjazdu">
+      </div>
+      <div class="booking-field">
+        <label for="departure">Data wyjazdu</label>
+        <input id="departure" type="date" aria-label="Data wyjazdu">
+      </div>
+      <div class="booking-field">
+        <label for="guests">Goście</label>
+        <select id="guests" aria-label="Liczba gości">
+          <option>1 osoba</option>
+          <option selected>2 osoby</option>
+          <option>3 osoby</option>
+          <option>4 osoby</option>
+        </select>
+      </div>
+      <a class="btn btn-primary" target="_blank" rel="noopener"
+         href="https://www.booking.com/hotel/pl/apartamenty-poludnik.html">
+         Sprawdź dostępność →
+      </a>
+    </div>
+  </div>
+
+  <div class="trust-strip">
+    <div class="container trust-panel">
+      <div class="stat">
+        <strong>17 pokoi</strong>
+        <span>Komfortowe pokoje dla gości indywidualnych i biznesowych.</span>
+      </div>
+      <div class="stat">
+        <strong>Strefa SPA</strong>
+        <span>Sauna, wanna SPA i przestrzeń do spokojnego odpoczynku.</span>
+      </div>
+      <div class="stat">
+        <strong>Do 35 osób</strong>
+        <span>Kameralna sala konferencyjna z profesjonalnym wyposażeniem.</span>
+      </div>
+      <div class="stat">
+        <strong>Parking + Wi‑Fi</strong>
+        <span>Bezpłatny parking i wygodny dostęp do Internetu.</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="pokoje">
+    <div class="container rooms-grid">
+      <div class="rooms-copy">
+        <div class="eyebrow">Pokoje</div>
+        <h2>Komfort, który pozwala naprawdę odpocząć.</h2>
+        <p>Nowoczesne wnętrza, prywatne łazienki i spokojna atmosfera. Idealne zarówno na krótki pobyt, weekend we dwoje, jak i wyjazd biznesowy.</p>
+        <a class="btn btn-outline" target="_blank" rel="noopener" href="https://www.booking.com/hotel/pl/apartamenty-poludnik.html">Zobacz dostępne pokoje →</a>
+        <div class="room-features">
+          <span class="feature-pill">Pokoje rodzinne</span>
+          <span class="feature-pill">Bezpłatne Wi‑Fi</span>
+          <span class="feature-pill">Minibar</span>
+          <span class="feature-pill">Zestaw do kawy i herbaty</span>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="https://www.konferencje.pl/media/cache/slideshow_v3_jpeg/L/k/j/G/LkjGmiqTd1D6npCbZcQH.jpeg" alt="Pokój w Południk Park Conference & SPA">
+      </div>
+    </div>
+  </section>
+
+  <section id="spa" class="spa">
+    <div class="container">
+      <div class="spa-grid">
+        <div class="spa-copy">
+          <div class="eyebrow">Strefa SPA</div>
+          <h2>Relaks dla ciała i umysłu.</h2>
+          <p>Zwolnij tempo. Kameralna strefa wellness daje przestrzeń do regeneracji po podróży, spotkaniu biznesowym albo intensywnym dniu.</p>
+          <div class="spa-list">
+            <span>Sauna</span>
+            <span>Wanna SPA / jacuzzi</span>
+            <span>Strefa relaksu</span>
+            <span>Kameralna atmosfera</span>
+          </div>
+          <a class="btn btn-primary" href="#kontakt">Zapytaj o pobyt →</a>
+        </div>
+        <div class="spa-img" role="img" aria-label="Strefa SPA"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="konferencje">
+    <div class="container conference-grid">
+      <div class="conference-visual" aria-label="Koncepcja sekcji konferencyjnej">
+        <div class="conference-number">35</div>
+        <div class="conference-visual-copy">
+          <div class="eyebrow">Kameralne spotkania</div>
+          <h3>Sala konferencyjna w Południk Park</h3>
+          <p>W finalnej wersji w tym miejscu znalazłoby się aktualne zdjęcie Państwa sali konferencyjnej.</p>
+          <div class="conference-badges">
+            <span>40 m²</span>
+            <span>projektor + ekran</span>
+            <span>Wi‑Fi</span>
+            <span>światło dzienne</span>
+          </div>
+        </div>
+      </div>
+      <div class="conference-copy">
+        <div class="eyebrow">Konferencje</div>
+        <h2>Profesjonalna przestrzeń do ważnych spotkań.</h2>
+        <p>Kameralna sala konferencyjna dla maksymalnie 35 osób. Naturalne światło, szybkie Wi‑Fi i wyposażenie multimedialne sprawiają, że to wygodne miejsce na szkolenia, prezentacje i spotkania firmowe.</p>
+        <div class="mini-grid">
+          <div class="mini-card">
+            <strong>35 osób</strong>
+            <span>Ustawienie konferencyjne</span>
+          </div>
+          <div class="mini-card">
+            <strong>40 m²</strong>
+            <span>Kameralna przestrzeń</span>
+          </div>
+          <div class="mini-card">
+            <strong>Projektor + ekran</strong>
+            <span>Sprzęt multimedialny</span>
+          </div>
+          <div class="mini-card">
+            <strong>Wi‑Fi + parking</strong>
+            <span>Wygoda dla uczestników</span>
+          </div>
+        </div>
+        <a class="btn btn-primary" href="mailto:poludnikpark@gmail.com?subject=Zapytanie%20o%20konferencję">Zapytaj o ofertę →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="experience">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Południk Park</div>
+          <h2>Więcej niż nocleg.</h2>
+        </div>
+        <p>Pobyt, odpoczynek i spotkania biznesowe — w jednym spokojnym, kameralnym miejscu w Stargardzie.</p>
+      </div>
+      <div class="experience-grid">
+        <article class="experience-card">
+          <div>
+            <h3>Komfortowe pokoje</h3>
+            <p>Przestrzeń zaprojektowana z myślą o odpoczynku.</p>
+          </div>
+        </article>
+        <article class="experience-card">
+          <div>
+            <h3>Regeneracja w SPA</h3>
+            <p>Sauna, wanna SPA i spokojna strefa relaksu.</p>
+          </div>
+        </article>
+        <article class="experience-card">
+          <div>
+            <h3>Spotkania biznesowe</h3>
+            <p>Kameralna sala i profesjonalne zaplecze konferencyjne.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container reviews-shell">
+      <div class="review-lead">
+        <div class="eyebrow">Opinie gości · Booking.com</div>
+        <div class="big">9,2 / 10</div>
+        <p>Ocena „Znakomity” na podstawie ponad 800 opinii. To jeden z najmocniejszych elementów zaufania, który warto pokazać od razu na stronie.</p>
+        <a class="btn btn-outline" target="_blank" rel="noopener" href="https://www.booking.com/hotel/pl/apartamenty-poludnik.html">Zobacz aktualne opinie →</a>
+      </div>
+      <div class="review-cards">
+        <div class="review">
+          <div class="eyebrow">Czystość</div>
+          <div style="font-family:'Playfair Display',Georgia,serif;font-size:42px;margin:8px 0 12px">9,5 / 10</div>
+          <p>Goście bardzo wysoko oceniają standard i czystość obiektu.</p>
+          <strong>Dane z Booking.com</strong>
+          <span>Aktualna prezentacja demonstracyjna</span>
+        </div>
+        <div class="review">
+          <div class="eyebrow">Obsługa</div>
+          <div style="font-family:'Playfair Display',Georgia,serif;font-size:42px;margin:8px 0 12px">9,6 / 10</div>
+          <p>Wysoka ocena personelu wzmacnia wizerunek kameralnego hotelu z dobrą obsługą.</p>
+          <strong>Dane z Booking.com</strong>
+          <span>Aktualna prezentacja demonstracyjna</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Galeria</div>
+          <h2>Zobacz klimat Południk Park.</h2>
+        </div>
+        <p>W finalnej wersji strony w tym miejscu pojawiłyby się prawdziwe zdjęcia hotelu, pokoi, SPA, śniadań i przestrzeni konferencyjnej.</p>
+      </div>
+      <div class="gallery">
+        <div class="large">
+          <img src="https://apartamenty-poludnik.west-pomerania-hotels.com/data/Photos/OriginalPhoto/17342/1734209/1734209315/hotel-poludnik-park-conference-spa-stargard-szczecinski-photo-1.JPEG" alt="Południk Park Conference & SPA">
+        </div>
+        <div class="gallery-side">
+          <div class="small">
+            <img src="https://www.konferencje.pl/media/cache/slideshow_v3_jpeg/L/k/j/G/LkjGmiqTd1D6npCbZcQH.jpeg" alt="Pokój Południk Park">
+          </div>
+          <div class="small">
+            <img src="https://images.trvl-media.com/lodging/101000000/100200000/100192100/100192060/5000709d.jpg?impolicy=resizecrop&ra=fill&rh=700&rw=1000" alt="Strefa SPA Południk Park">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt" class="contact">
+    <div class="container contact-grid">
+      <div>
+        <div class="eyebrow">Lokalizacja / kontakt</div>
+        <h2>Zapraszamy do Stargardu.</h2>
+        <p>Południk Park znajduje się przy ul. Bornholmskiej 48 w Stargardzie. Wygodny dojazd, prywatny parking i spokojna atmosfera.</p>
+        <div class="contact-info">
+          <div>📍 Bornholmska 48, 73-110 Stargard</div>
+          <a href="tel:+48797222269">☎ +48 797 222 269</a>
+          <a href="mailto:poludnikpark@gmail.com">✉ poludnikpark@gmail.com</a>
+        </div>
+        <a class="btn btn-primary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Bornholmska+48+Stargard">Zobacz na mapie →</a>
+      </div>
+      <div class="map-card" aria-label="Lokalizacja hotelu">
+        <iframe
+          title="Mapa Południk Park"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Bornholmska+48,+73-110+Stargard,+Poland&output=embed">
+        </iframe>
+        <div class="map-label">Bornholmska 48 · Stargard</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-row">
+      <div>© 2026 Południk Park Conference & SPA — koncepcja strony</div>
+      <div>Bornholmska 48 · Stargard · +48 797 222 269</div>
+    </div>
+    <div class="demo-note">Koncepcja demonstracyjna przygotowana na potrzeby prezentacji. Koncepcja demonstracyjna przygotowana dla Południk Park. Wykorzystano publicznie dostępne zdjęcia obiektu do prezentacji kierunku wizualnego. W finalnej wersji fotografie, treści, system rezerwacji oraz materiały konferencyjne zostałyby uzgodnione i dostarczone przez Południk Park.</div>
+  </div>
+</footer>
+
+<script>
+  // Small smooth reveal effect
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+      }
+    });
+  }, {threshold:.08});
+
+  document.querySelectorAll("section .container, .trust-panel").forEach(el=>{
+    el.style.opacity = "0";
+    el.style.transform = "translateY(18px)";
+    el.style.transition = "opacity .7s ease, transform .7s ease";
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
